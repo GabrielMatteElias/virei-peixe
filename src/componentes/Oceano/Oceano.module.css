@@ -1,0 +1,13 @@
+.oceano {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background-color: var(--cor-fundo);
+  background-image: url('/background.png');
+  background-repeat: no-repeat;
+  background-position: top center;
+  background-size: cover;
+}

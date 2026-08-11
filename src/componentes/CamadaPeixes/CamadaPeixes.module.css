@@ -1,0 +1,17 @@
+.camadaPeixes {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  width: 100%;
+  max-width: 100%;
+  min-height: 100%;
+  pointer-events: none;
+}
+
+.peixe {
+  position: absolute;
+  top: var(--posicao-y);
+  left: var(--posicao-x);
+  max-width: 100%;
+  transform: translate(-50%, -50%);
+}
