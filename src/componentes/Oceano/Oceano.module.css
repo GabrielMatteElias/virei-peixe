@@ -1,13 +1,46 @@
-.oceano {
+.containerGeral {
   position: relative;
   isolation: isolate;
   width: 100%;
   max-width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: var(--cor-fundo);
+  background-color: #010a14;
+}
+
+
+/* Primeira dobra: Imagem da Superfície */
+.superficie {
+  position: relative;
+  width: 100%;
+  height: 100vh;
   background-image: url('/background.png');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
+}
+
+/* Suavização entre o final da imagem e o gradiente das profundezas */
+.superficie::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 180px;
+  background: linear-gradient(to bottom, transparent, #094067);
+}
+
+/* Continuação do oceano (aumente a min-height conforme a quantidade de peixes) */
+.profundidade {
+  position: relative;
+  width: 100%;
+  min-height: 250vh;
+  background: linear-gradient(
+    to bottom,
+    #094067 0%,      /* Transição do tom azul da imagem */
+    #052a4a 25%,     /* Azul intermediário */
+    #02182b 60%,     /* Azul escuro */
+    #010a14 100%     /* Zona abissal */
+  );
 }

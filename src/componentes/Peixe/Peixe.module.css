@@ -1,0 +1,44 @@
+.conteudoPeixe {
+  position: relative;
+  display: grid;
+  justify-items: center;
+}
+
+.botaoPeixe {
+  width: auto;
+  max-width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 0;
+}
+
+.botaoPeixe:focus-visible {
+  outline: 3px solid var(--cor-destaque);
+  outline-offset: 4px;
+  border-radius: 0.5rem;
+}
+
+.imagemPeixe {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.nomeUsuario {
+  width: max-content;
+  max-width: min(14rem, 90vw);
+  margin-top: 0.35rem;
+  overflow: hidden;
+  color: #fff;
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  text-overflow: ellipsis;
+  text-shadow: 0 1px 3px rgba(0, 10, 20, 0.9);
+  white-space: nowrap;
+}
