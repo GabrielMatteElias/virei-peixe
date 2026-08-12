@@ -1,9 +1,10 @@
-import { useLayoutEffect, useRef, useState } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import estilos from './PerfilPeixe.module.css'
 
 const margemViewport = 16
 const distanciaAncora = 12
+const limiteMobile = 640
 
 function limitar(valor, minimo, maximo) {
   return Math.min(Math.max(valor, minimo), Math.max(minimo, maximo))
@@ -36,6 +37,32 @@ export default function PerfilPeixe({
 
       const retanguloAncora = elementoAncora.getBoundingClientRect()
       const retanguloPerfil = elementoPerfil.getBoundingClientRect()
+      const emMobile = window.matchMedia(`(max-width: ${limiteMobile}px)`).matches
+
+      if (emMobile) {
+        const espacoAbaixo = window.innerHeight - retanguloAncora.bottom - distanciaAncora
+        const espacoAcima = retanguloAncora.top - distanciaAncora
+        const abrirAbaixo = espacoAbaixo >= retanguloPerfil.height
+          || espacoAbaixo >= espacoAcima
+        const topoDesejado = abrirAbaixo
+          ? retanguloAncora.bottom + distanciaAncora
+          : retanguloAncora.top - retanguloPerfil.height - distanciaAncora
+
+        definirPosicao({
+          esquerda: limitar(
+            retanguloAncora.left + (retanguloAncora.width - retanguloPerfil.width) / 2,
+            margemViewport,
+            window.innerWidth - retanguloPerfil.width - margemViewport,
+          ),
+          topo: limitar(
+            topoDesejado,
+            margemViewport,
+            window.innerHeight - retanguloPerfil.height - margemViewport,
+          ),
+        })
+        return
+      }
+
       const espacoDireita = window.innerWidth - retanguloAncora.right
       const espacoEsquerda = retanguloAncora.left
       const abrirDireita = espacoDireita >= retanguloPerfil.width + distanciaAncora
@@ -69,6 +96,22 @@ export default function PerfilPeixe({
       window.removeEventListener('scroll', atualizarPosicao, true)
     }
   }, [elementoAncora, usuario.id])
+
+  useEffect(() => {
+    if (window.matchMedia(`(max-width: ${limiteMobile}px)`).matches) {
+      return undefined
+    }
+
+    const observador = new IntersectionObserver(([entrada]) => {
+      if (!entrada.isIntersecting) {
+        aoFechar()
+      }
+    })
+
+    observador.observe(elementoAncora)
+
+    return () => observador.disconnect()
+  }, [aoFechar, elementoAncora])
 
   function definirReferencia(elemento) {
     elementoPerfilRef.current = elemento

@@ -6,7 +6,9 @@ export function PlayerMini({
     srcBolhas = '/bolhas.mp3',
 }) {
     const [tocando, setTocando] = useState(false);
-    const [minimizado, setMinimizado] = useState(false);
+    const [minimizado, setMinimizado] = useState(
+        () => window.matchMedia('(max-width: 640px)').matches,
+    );
     const [volume, setVolume] = useState(1);
 
     const musicaRef = useRef(null);
@@ -14,6 +16,10 @@ export function PlayerMini({
 
     useEffect(() => {
         const handleScroll = () => {
+            if (window.matchMedia('(max-width: 640px)').matches) {
+                return;
+            }
+
             setMinimizado(window.scrollY > 120);
         };
 
@@ -78,6 +84,13 @@ export function PlayerMini({
                 ref={bolhasRef}
                 src={srcBolhas}
                 loop
+            />
+
+            <button
+                type="button"
+                className={estilos.abrirMobile}
+                onClick={() => setMinimizado(false)}
+                aria-label="Abrir controles de som"
             />
 
             <div className={estilos.ondas}>
