@@ -1,6 +1,6 @@
 import estilos from './Peixe.module.css'
 
-export default function Peixe({ peixe, estaAberto, aoAbrir, aoAlternar }) {
+export default function Peixe({ peixe, estaAberto, estaDestacado, aoRegistrar, aoAbrir, aoAlternar }) {
   const nomeUsuario = `@${peixe.usuario.username}`
   const rotuloBotao = `${estaAberto ? 'Fechar' : 'Abrir'} perfil de ${nomeUsuario}`
 
@@ -27,8 +27,11 @@ export default function Peixe({ peixe, estaAberto, aoAbrir, aoAlternar }) {
   return (
     <div className={estilos.conteudoPeixe}>
       <button
+        ref={(elemento) => aoRegistrar(peixe.id, elemento)}
         type="button"
-        className={estilos.botaoPeixe}
+        className={`${estilos.botaoPeixe} ${estaDestacado ? estilos.destacado : ''}`}
+        data-peixe-id={peixe.id}
+        data-usuario-id={peixe.usuario.id}
         aria-label={rotuloBotao}
         aria-expanded={estaAberto}
         aria-controls={`perfil-peixe-${peixe.id}`}

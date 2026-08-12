@@ -44,3 +44,17 @@
     #010a14 100%     /* Zona abissal */
   );
 }
+
+@media (max-width: 1024px) {
+  .superficie {
+    background-image: url('/background_tablet.png');
+    background-position: center center;
+  }
+}
+
+@media (max-width: 654px) {
+  .superficie {
+    background-image: url('/background_celular.png');
+    background-position: center center;
+  }
+}

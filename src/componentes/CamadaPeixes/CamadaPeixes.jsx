@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { forwardRef, useCallback, useEffect, useImperativeHandle, useRef, useState } from 'react'
 import Peixe from '../Peixe/Peixe'
 import PerfilPeixe from '../PerfilPeixe/PerfilPeixe'
 import estilos from './CamadaPeixes.module.css'
@@ -9,11 +9,15 @@ function calcularPosicaoX(peixe) {
     : `calc(50% + 60px + ${peixe.offset}vw)`
 }
 
-export default function CamadaPeixes({ peixes = [] }) {
+const CamadaPeixes = forwardRef(function CamadaPeixes({ peixes = [] }, ref) {
   const [identificadorAberto, definirIdentificadorAberto] = useState(null)
+  const [identificadorDestacado, definirIdentificadorDestacado] = useState(null)
   const [elementoAncora, definirElementoAncora] = useState(null)
   const identificadorAbertoRef = useRef(null)
   const perfilRef = useRef(null)
+  const referenciasPeixes = useRef(new Map())
+  const temporizadorInicioDestaqueRef = useRef(null)
+  const temporizadorDestaqueRef = useRef(null)
 
   const fecharPerfil = useCallback(() => {
     identificadorAbertoRef.current = null
@@ -42,6 +46,49 @@ export default function CamadaPeixes({ peixes = [] }) {
 
   const registrarPerfil = useCallback((elemento) => {
     perfilRef.current = elemento
+  }, [])
+
+  const registrarPeixe = useCallback((identificador, elemento) => {
+    if (elemento) {
+      referenciasPeixes.current.set(identificador, elemento)
+      return
+    }
+
+    referenciasPeixes.current.delete(identificador)
+  }, [])
+
+  useImperativeHandle(ref, () => ({
+    localizarPeixePorUsuario(username) {
+      const usernameNormalizado = username.replace(/^@/, '').toLowerCase()
+      const peixe = peixes.find(
+        (item) => item.usuario.username.toLowerCase() === usernameNormalizado,
+      )
+      const elemento = peixe && referenciasPeixes.current.get(peixe.id)
+
+      if (!peixe || !elemento) {
+        return
+      }
+
+      const retangulo = elemento.getBoundingClientRect()
+      const destino = window.scrollY + retangulo.top + (retangulo.height / 2) - (window.innerHeight / 2)
+      const distancia = Math.abs(destino - window.scrollY)
+
+      window.scrollTo({ top: Math.max(0, destino), behavior: 'smooth' })
+
+      window.clearTimeout(temporizadorInicioDestaqueRef.current)
+      window.clearTimeout(temporizadorDestaqueRef.current)
+      temporizadorInicioDestaqueRef.current = window.setTimeout(() => {
+        definirIdentificadorDestacado(peixe.id)
+        temporizadorDestaqueRef.current = window.setTimeout(() => {
+          definirIdentificadorDestacado(null)
+        }, 1700)
+      }, Math.min(900, 250 + (distancia / 4)))
+    },
+  }), [peixes])
+
+  useEffect(() => () => {
+    window.clearTimeout(temporizadorInicioDestaqueRef.current)
+    window.clearTimeout(temporizadorDestaqueRef.current)
   }, [])
 
   useEffect(() => {
@@ -98,6 +145,8 @@ export default function CamadaPeixes({ peixes = [] }) {
           <Peixe
             peixe={peixe}
             estaAberto={peixe.id === identificadorAberto}
+            estaDestacado={peixe.id === identificadorDestacado}
+            aoRegistrar={registrarPeixe}
             aoAbrir={abrirPerfil}
             aoAlternar={alternarPerfil}
           />
@@ -114,4 +163,6 @@ export default function CamadaPeixes({ peixes = [] }) {
       )}
     </section>
   )
-}
+})
+
+export default CamadaPeixes

@@ -1,39 +1,84 @@
 import { useState, useEffect, useRef } from 'react';
 import estilos from './Player.module.css';
 
-export function PlayerMini({ srcAudio = '/som.mp3', titulo = 'Sons do Oceano' }) {
+export function PlayerMini({
+    srcAudio = '/som.mp3',
+    srcBolhas = '/bolhas.mp3',
+}) {
     const [tocando, setTocando] = useState(false);
     const [minimizado, setMinimizado] = useState(false);
     const [volume, setVolume] = useState(1);
-    const audioRef = useRef(null);
+
+    const musicaRef = useRef(null);
+    const bolhasRef = useRef(null);
 
     useEffect(() => {
         const handleScroll = () => {
             setMinimizado(window.scrollY > 120);
         };
+
         window.addEventListener('scroll', handleScroll, { passive: true });
-        return () => window.removeEventListener('scroll', handleScroll);
+
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
-    const alternarPlay = () => {
-        if (!audioRef.current) return;
+    const alternarPlay = async () => {
+        const musica = musicaRef.current;
+        const bolhas = bolhasRef.current;
+
+        if (!musica || !bolhas) return;
+
         if (tocando) {
-            audioRef.current.pause();
-        } else {
-            audioRef.current.play().catch(() => { });
+            musica.pause();
+            bolhas.pause();
+            setTocando(false);
+            return;
         }
-        setTocando(!tocando);
+
+        try {
+            await Promise.all([
+                musica.play(),
+                bolhas.play(),
+            ]);
+
+            setTocando(true);
+        } catch {
+            setTocando(false);
+        }
     };
 
     const alterarVolume = (e) => {
-        const v = parseFloat(e.target.value);
+        const v = Number(e.target.value);
+
         setVolume(v);
-        if (audioRef.current) audioRef.current.volume = v;
+
+        if (musicaRef.current) {
+            musicaRef.current.volume = v * 0.2;
+        }
+
+        if (bolhasRef.current) {
+            bolhasRef.current.volume = v * 0.5;
+        }
     };
 
     return (
-        <div className={`${estilos.container} ${minimizado ? estilos.minimizado : ''}`}>
-            <audio ref={audioRef} src={srcAudio} onEnded={() => setTocando(false)} />
+        <div
+            className={`${estilos.container} ${minimizado ? estilos.minimizado : ''
+                }`}
+        >
+            <audio
+                ref={musicaRef}
+                src={srcAudio}
+                loop
+            />
+
+            <audio
+                ref={bolhasRef}
+                src={srcBolhas}
+                loop
+            />
 
             <div className={estilos.ondas}>
                 <span className={tocando ? estilos.animar : ''} />
@@ -42,11 +87,31 @@ export function PlayerMini({ srcAudio = '/som.mp3', titulo = 'Sons do Oceano' })
             </div>
 
             <div className={estilos.controles}>
-                <button onClick={alternarPlay} className={estilos.btnPlay} aria-label="Play/Pause">
+                <button
+                    onClick={alternarPlay}
+                    className={estilos.btnPlay}
+                    aria-label={tocando ? 'Pausar sons' : 'Reproduzir sons'}
+                >
                     {tocando ? '⏸' : '▶'}
                 </button>
-                <div className={estilos.info}>
-                    <span className={estilos.titulo}>{titulo}</span>
+
+                <div className={estilos.volumeContainer}>
+                    <svg
+                        viewBox="0 0 24 24"
+                        width="18"
+                        height="18"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        aria-hidden="true"
+                    >
+                        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                        <path d="M15.5 8.5a5 5 0 0 1 0 7" />
+                        <path d="M19 5a10 10 0 0 1 0 14" />
+                    </svg>
+
                     <input
                         type="range"
                         min="0"
@@ -55,6 +120,7 @@ export function PlayerMini({ srcAudio = '/som.mp3', titulo = 'Sons do Oceano' })
                         value={volume}
                         onChange={alterarVolume}
                         className={estilos.volume}
+                        aria-label="Volume"
                     />
                 </div>
             </div>

@@ -13,10 +13,22 @@
   line-height: 0;
 }
 
-.botaoPeixe:focus-visible {
-  outline: 3px solid var(--cor-destaque);
-  outline-offset: 4px;
-  border-radius: 0.5rem;
+.botaoPeixe.destacado {
+  animation: localizarPeixe 1.7s ease-out;
+}
+
+.botaoPeixe.destacado .imagemPeixe {
+  filter: hue-rotate(0deg)  grayscale(1) brightness(1.25) drop-shadow(0 0 12px rgba(255, 255, 255, 0.95)) !important;
+}
+
+@keyframes localizarPeixe {
+  0%, 100% {
+    transform: scale(1);
+  }
+
+  30%, 60% {
+    transform: scale(1.18);
+  }
 }
 
 .imagemPeixe {

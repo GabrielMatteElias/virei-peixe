@@ -1,10 +1,12 @@
 import { PlayerMini } from '../Player/Player'
+import InstagramUserSearch from '../InstagramUserSearch/InstagramUserSearch'
 import estilos from './Oceano.module.css'
 
-export default function Oceano({ filhos }) {
+export default function Oceano({ filhos, onSearch }) {
   return (
     <main className={estilos.containerGeral}>
       <PlayerMini />
+      <InstagramUserSearch onSearch={onSearch} />
       {/* Linha vertical centralizada acompanhando a tela */}
       <div className={estilos.linhaPesca} />
 
