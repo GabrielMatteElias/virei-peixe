@@ -30,6 +30,20 @@ export function PlayerMini({
         };
     }, []);
 
+    useEffect(() => {
+        const fecharAoClicarFora = () => {
+            if (window.matchMedia('(max-width: 640px)').matches) {
+                setMinimizado(true);
+            }
+        };
+
+        document.addEventListener('pointerdown', fecharAoClicarFora);
+
+        return () => {
+            document.removeEventListener('pointerdown', fecharAoClicarFora);
+        };
+    }, []);
+
     const alternarPlay = async () => {
         const musica = musicaRef.current;
         const bolhas = bolhasRef.current;
@@ -73,6 +87,7 @@ export function PlayerMini({
         <div
             className={`${estilos.container} ${minimizado ? estilos.minimizado : ''
                 }`}
+            onPointerDown={(evento) => evento.stopPropagation()}
         >
             <audio
                 ref={musicaRef}
