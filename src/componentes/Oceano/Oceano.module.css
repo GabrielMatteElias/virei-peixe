@@ -14,7 +14,7 @@
   position: relative;
   width: 100%;
   height: 100vh;
-  background-image: url('/background.png');
+  background-image: url('/background.jpg');
   background-repeat: no-repeat;
   background-position: top center;
   background-size: cover;
@@ -47,14 +47,14 @@
 
 @media (max-width: 1024px) {
   .superficie {
-    background-image: url('/background_tablet.png');
+    background-image: url('/background_tablet.jpg');
     background-position: center center;
   }
 }
 
 @media (max-width: 654px) {
   .superficie {
-    background-image: url('/background_celular.png');
+    background-image: url('/background_celular.jpg');
     background-position: center center;
   }
 }
