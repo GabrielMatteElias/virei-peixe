@@ -1,7 +1,7 @@
 import estilos from './Peixe.module.css'
 
 export default function Peixe({ peixe, estaAberto, estaDestacado, aoRegistrar, aoAbrir, aoAlternar }) {
-  const nomeUsuario = `@${peixe.usuario.username}`
+  const nomeUsuario = `@${peixe.user_name}`
   const rotuloBotao = `${estaAberto ? 'Fechar' : 'Abrir'} perfil de ${nomeUsuario}`
 
   function lidarComFoco(evento) {
@@ -30,8 +30,7 @@ export default function Peixe({ peixe, estaAberto, estaDestacado, aoRegistrar, a
         ref={(elemento) => aoRegistrar(peixe.id, elemento)}
         type="button"
         className={`${estilos.botaoPeixe} ${estaDestacado ? estilos.destacado : ''}`}
-        data-peixe-id={peixe.id}
-        data-usuario-id={peixe.usuario.id}
+        data-usuario-id={peixe.id}
         aria-label={rotuloBotao}
         aria-expanded={estaAberto}
         aria-controls={`perfil-peixe-${peixe.id}`}
@@ -41,12 +40,12 @@ export default function Peixe({ peixe, estaAberto, estaDestacado, aoRegistrar, a
       >
         <img
           className={estilos.imagemPeixe}
-          src={peixe.imagem}
+          src='/peixe.png'
           alt=""
           style={{
-            width: `${peixe.tamanho}px`,
+            width: `${peixe.peixe_tamanho}px`,
             filter: `hue-rotate(${(peixe.id * 45) % 360}deg)`,
-            transform: `scaleX(${peixe.espelhado ? -1 : 1})`
+            transform: `scaleX(${peixe.peixe_espelhado ? -1 : 1})`
           }}
         />
         <span className={estilos.nomeUsuario} style={{ '--cor-peixe': peixe.cor }}>

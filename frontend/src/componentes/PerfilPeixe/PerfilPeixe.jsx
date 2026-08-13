@@ -18,12 +18,7 @@ function formatarData(data) {
   }).format(new Date(data))
 }
 
-export default function PerfilPeixe({
-  usuario,
-  elementoAncora,
-  aoRegistrarPerfil,
-  aoFechar,
-}) {
+export default function PerfilPeixe({ usuario, elementoAncora, aoRegistrarPerfil, aoFechar, }) {
   const elementoPerfilRef = useRef(null)
   const [posicao, definirPosicao] = useState(null)
 
@@ -123,24 +118,24 @@ export default function PerfilPeixe({
       ref={definirReferencia}
       id={`perfil-peixe-${usuario.id}`}
       className={estilos.perfilPeixe}
-      aria-label={`Perfil de @${usuario.username}`}
+      aria-label={`Perfil de @${usuario.user_name}`}
       style={posicao ? { left: posicao.esquerda, top: posicao.topo } : undefined}
     >
       <button
         type="button"
         className={estilos.botaoFechar}
         onClick={aoFechar}
-        aria-label={`Fechar perfil de @${usuario.username}`}
+        aria-label={`Fechar perfil de @${usuario.user_name}`}
       >
         ×
       </button>
 
-      <img className={estilos.foto} src={usuario.foto} alt="" />
+      <img className={estilos.foto} src={usuario.foto} alt="" referrerPolicy="no-referrer"  crossOrigin="anonymous"/>
       <div className={estilos.informacoes}>
         <strong className={estilos.nome}>{usuario.nome}</strong>
-        <span className={estilos.usuario}>@{usuario.username}</span>
+        <span className={estilos.usuario}>@{usuario.user_name}</span>
         <span className={estilos.dataCadastro}>
-          Membro desde {formatarData(usuario.cadastradoEm)}
+          Membro desde {formatarData(usuario.cadastrado_em)}
         </span>
       </div>
     </aside>,

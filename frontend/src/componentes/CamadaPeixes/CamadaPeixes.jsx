@@ -4,9 +4,9 @@ import PerfilPeixe from '../PerfilPeixe/PerfilPeixe'
 import estilos from './CamadaPeixes.module.css'
 
 function calcularPosicaoX(peixe) {
-  return peixe.lado === 'esquerda'
-    ? `calc(50% - 60px - ${peixe.offset}vw)`
-    : `calc(50% + 60px + ${peixe.offset}vw)`
+  return peixe.peixe_lado === 'esquerda'
+    ? `calc(50% - 60px - ${peixe.peixe_posicao_x}vw)`
+    : `calc(50% + 60px + ${peixe.peixe_posicao_x}vw)`
 }
 
 const CamadaPeixes = forwardRef(function CamadaPeixes({ peixes = [] }, ref) {
@@ -61,7 +61,7 @@ const CamadaPeixes = forwardRef(function CamadaPeixes({ peixes = [] }, ref) {
     localizarPeixePorUsuario(username) {
       const usernameNormalizado = username.replace(/^@/, '').toLowerCase()
       const peixe = peixes.find(
-        (item) => item.usuario.username.toLowerCase() === usernameNormalizado,
+        (item) => item.user_name.toLowerCase() === usernameNormalizado,
       )
       const elemento = peixe && referenciasPeixes.current.get(peixe.id)
 
@@ -139,7 +139,7 @@ const CamadaPeixes = forwardRef(function CamadaPeixes({ peixes = [] }, ref) {
           className={estilos.localizacaoPeixe}
           style={{
             '--posicao-x': calcularPosicaoX(peixe),
-            '--posicao-y': `${peixe.profundidade}px`,
+            '--posicao-y': `${peixe.peixe_profundidade}px`,
           }}
         >
           <Peixe
@@ -155,7 +155,7 @@ const CamadaPeixes = forwardRef(function CamadaPeixes({ peixes = [] }, ref) {
 
       {peixeAberto && elementoAncora && (
         <PerfilPeixe
-          usuario={peixeAberto.usuario}
+          usuario={peixeAberto}
           elementoAncora={elementoAncora}
           aoRegistrarPerfil={registrarPerfil}
           aoFechar={fecharPerfil}
