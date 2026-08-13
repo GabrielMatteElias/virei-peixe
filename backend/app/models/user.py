@@ -21,7 +21,7 @@ class User(Base):
     )
     foto: Mapped[str | None] = mapped_column(
         String(500),
-        nullable=False,
+        nullable=True,
     )
     cadastrado_em: Mapped[datetime] = mapped_column(
         DateTime(timezone=True),

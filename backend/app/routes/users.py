@@ -1,15 +1,14 @@
 import random
+from typing import List
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
-
 from app.db.database import get_db
 from app.models.user import User
-from app.schemas.user import UserCreate
+from app.schemas.user import UserResponse, UserCreate
 
 router = APIRouter(prefix="/usuario", tags=["Usuários"])
-
 
 def calcular_posicao_x_valida(ultimo_x: int | None) -> int:
     LIMITE_MIN = 0
@@ -25,7 +24,6 @@ def calcular_posicao_x_valida(ultimo_x: int | None) -> int:
     ]
 
     return random.choice(posicoes_validas)
-
 
 def gerar_dados_peixe(db: Session) -> dict:
     ultimo_usuario = db.scalar(select(User).order_by(User.id.desc()))
@@ -45,7 +43,7 @@ def gerar_dados_peixe(db: Session) -> dict:
     }
 
 
-@router.post("/", status_code=status.HTTP_201_CREATED)
+@router.post("/criar", status_code=status.HTTP_201_CREATED)
 def criar_usuario(
     dados: UserCreate,
     db: Session = Depends(get_db),
@@ -86,3 +84,9 @@ def criar_usuario(
         )
 
     return usuario
+
+
+@router.get("/", response_model=List[UserResponse], status_code=status.HTTP_200_OK)
+def listar_usuarios(db: Session = Depends(get_db)):
+    usuarios = db.scalars(select(User).order_by(User.id.asc())).all()
+    return usuarios
