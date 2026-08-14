@@ -4,7 +4,7 @@ const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://virei-peixe-produc
 
 export async function buscarPeixes() {
     try {
-        const response = await fetch(`${API_BASE_URL}/usuario`, {
+        const response = await fetch(`${API_BASE_URL}/usuario/`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
