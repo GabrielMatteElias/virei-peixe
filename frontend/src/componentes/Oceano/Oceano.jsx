@@ -7,8 +7,6 @@ export default function Oceano({ filhos, onSearch }) {
     <main className={estilos.containerGeral}>
       <PlayerMini />
       <InstagramUserSearch onSearch={onSearch} />
-      {/* Linha vertical centralizada acompanhando a tela */}
-      <div className={estilos.linhaPesca} />
 
       {/* Topo com a imagem da superfície */}
       <section className={estilos.superficie} />

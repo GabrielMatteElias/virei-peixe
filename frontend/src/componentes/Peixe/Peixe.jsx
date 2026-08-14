@@ -3,6 +3,7 @@ import estilos from './Peixe.module.css'
 export default function Peixe({ peixe, estaAberto, estaDestacado, aoRegistrar, aoAbrir, aoAlternar }) {
   const nomeUsuario = `@${peixe.user_name}`
   const rotuloBotao = `${estaAberto ? 'Fechar' : 'Abrir'} perfil de ${nomeUsuario}`
+console.log(peixe);
 
   function lidarComFoco(evento) {
     if (!evento.currentTarget.matches(':focus-visible')) {
@@ -40,7 +41,7 @@ export default function Peixe({ peixe, estaAberto, estaDestacado, aoRegistrar, a
       >
         <img
           className={estilos.imagemPeixe}
-          src='/peixe.png'
+          src={`/peixe${peixe.peixe_especie}.webp`}
           alt=""
           style={{
             width: `${peixe.peixe_tamanho}px`,

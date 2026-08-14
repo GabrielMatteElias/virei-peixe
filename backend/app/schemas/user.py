@@ -12,6 +12,7 @@ class UserResponse(BaseModel):
     peixe_profundidade: int
     peixe_tamanho: int
     peixe_espelhado: bool
+    peixe_especie: int
 
     class Config:
         from_attributes = True

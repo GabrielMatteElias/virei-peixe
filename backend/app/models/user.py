@@ -33,3 +33,4 @@ class User(Base):
     peixe_profundidade: Mapped[int] = mapped_column(nullable=False)
     peixe_tamanho: Mapped[int] = mapped_column(nullable=False)
     peixe_espelhado: Mapped[bool] = mapped_column(nullable=False)
+    peixe_especie: Mapped[int] = mapped_column(nullable=False)

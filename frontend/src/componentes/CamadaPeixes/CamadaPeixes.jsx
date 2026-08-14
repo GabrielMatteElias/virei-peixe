@@ -4,9 +4,13 @@ import PerfilPeixe from '../PerfilPeixe/PerfilPeixe'
 import estilos from './CamadaPeixes.module.css'
 
 function calcularPosicaoX(peixe) {
-  return peixe.peixe_lado === 'esquerda'
-    ? `calc(50% - 60px - ${peixe.peixe_posicao_x}vw)`
-    : `calc(50% + 60px + ${peixe.peixe_posicao_x}vw)`
+  const deslocamento = (peixe.peixe_posicao_x / 40) * 35;
+
+  if (peixe.peixe_lado === 'esquerda') {
+    return `clamp(80px, calc(50% - 60px - ${deslocamento}vw), 45%)`;
+  }
+
+  return `clamp(55%, calc(50% + 60px + ${deslocamento}vw), calc(100% - 80px))`;
 }
 
 const CamadaPeixes = forwardRef(function CamadaPeixes({ peixes = [] }, ref) {
