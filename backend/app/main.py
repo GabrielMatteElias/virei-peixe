@@ -13,9 +13,11 @@ app.include_router(user_router)
 
 
 origins = [
-    #"http://localhost:5173",
+    "http://localhost:5173",
     #"http://localhost:3000",
-    "https://virei-peixe-bice.vercel.app",
+    "https://virei-peixe-bice.vercel.app"
+    "https://virei-peixe-bice.vercel.app/"
+    ,
 ]
 
 app.add_middleware(
