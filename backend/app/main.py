@@ -2,6 +2,8 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.users import router as user_router
 
+app = FastAPI(docs_url="/docs", redoc_url="/redoc")
+
 app = FastAPI(
     title="Virei Peixe API",
     version="1.0.0",
@@ -11,8 +13,9 @@ app.include_router(user_router)
 
 
 origins = [
-    "http://localhost:5173",
-    "http://localhost:3000",
+    #"http://localhost:5173",
+    #"http://localhost:3000",
+    "https://virei-peixe-bice.vercel.app",
 ]
 
 app.add_middleware(

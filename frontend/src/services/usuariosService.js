@@ -1,6 +1,6 @@
 import { peixesIniciais } from '../dados/peixes';
 
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://virei-peixe-production.up.railway.app';
 
 export async function buscarPeixes() {
     try {
