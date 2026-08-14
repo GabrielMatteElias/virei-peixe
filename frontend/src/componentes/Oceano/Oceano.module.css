@@ -21,14 +21,14 @@
 
 @media (max-width: 1024px) {
   .superficie {
-    background-image: url('/background_t2ablet.jpg');
+    background-image: url('/background_tablet.webp');
     background-position: center center;
   }
 }
 
 @media (max-width: 654px) {
   .superficie {
-    background-image: url('/background_celular.wepg');
+    background-image: url('/background_celular.webp');
     background-position: center center;
   }
 }
