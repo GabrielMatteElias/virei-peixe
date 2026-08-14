@@ -19,10 +19,54 @@
   background-size: cover;
 }
 
+.dicaScroll {
+  position: absolute;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: #ffffff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  animation: flutuar 2.4s ease-in-out infinite;
+  transition: opacity 0.3s ease-out;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.dicaTexto {
+  font-size: 0.95rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.dicaSeta {
+  opacity: 0.85;
+}
+
+@keyframes flutuar {
+
+  0%,
+  100% {
+    transform: translate(-50%, 0);
+  }
+
+  50% {
+    transform: translate(-50%, 10px);
+  }
+}
+
 @media (max-width: 1024px) {
   .superficie {
     background-image: url('/background_tablet.webp');
     background-position: center center;
+  }
+
+  .dicaScroll {
+    bottom: 100px;
   }
 }
 
@@ -30,6 +74,15 @@
   .superficie {
     background-image: url('/background_celular.webp');
     background-position: center center;
+  }
+
+  .dicaTexto {
+    font-size: 0.8rem;
+  }
+
+  .dicaSeta {
+    width: 16px;
+    height: 16px;
   }
 }
 
@@ -40,7 +93,7 @@
   bottom: 0;
   left: 0;
   width: 100%;
-  height:180px;
+  height: 180px;
   background: linear-gradient(to bottom, transparent, #094067);
 }
 
@@ -49,11 +102,20 @@
   position: relative;
   width: 100%;
   min-height: 250vh;
-  background: linear-gradient(
-    to bottom,
-    #094067 0%,      /* Transição do tom azul da imagem */
-    #052a4a 25%,     /* Azul intermediário */
-    #02182b 60%,     /* Azul escuro */
-    #010a14 100%     /* Zona abissal */
-  );
+  background: linear-gradient(to bottom,
+      #094067 0%,
+      /* Transição do tom azul da imagem */
+      #052a4a 25%,
+      /* Azul intermediário */
+      #02182b 60%,
+      /* Azul escuro */
+      #010a14 100%
+      /* Zona abissal */
+    );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dicaScroll {
+    animation: none;
+  }
 }

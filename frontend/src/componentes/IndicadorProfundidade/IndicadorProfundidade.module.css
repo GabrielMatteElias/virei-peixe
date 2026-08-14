@@ -1,0 +1,55 @@
+.indicador {
+  position: fixed;
+  z-index: 1;
+  top: calc(env(safe-area-inset-top, 0px) + 1rem);
+  left: 50%;
+  display: grid;
+  min-width: 6.75rem;
+  padding: 0.45rem 0.7rem 0.5rem;
+  border: 1px solid rgba(163, 230, 255, 0.3);
+  border-radius: 0.7rem;
+  color: #effbff;
+  background: rgba(1, 24, 43, 0.58);
+  box-shadow: 0 0.5rem 1.5rem rgba(0, 12, 25, 0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translate(-50%, -0.5rem);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.indicador[data-visivel='true'] {
+  opacity: 1;
+  transform: translate(-50%, 0);
+}
+
+.rotulo {
+  color: rgba(208, 244, 255, 0.7);
+  font-size: 0.58rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.valor {
+  margin-top: 0.1rem;
+  font-size: 1.1rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.1;
+  text-align: center;
+  text-shadow: 0 1px 0.35rem rgba(0, 0, 0, 0.55);
+}
+
+@media (min-width: 641px) {
+  .indicador {
+    top: calc(env(safe-area-inset-top, 0px) + 1.5rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicador {
+    transition: none;
+  }
+}
