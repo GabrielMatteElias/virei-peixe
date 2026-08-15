@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.routes.users import router as user_router
+from app.routes.imports import router as import_router
 
 app = FastAPI(docs_url="/docs", redoc_url="/redoc")
 
@@ -10,6 +11,7 @@ app = FastAPI(
 )
 
 app.include_router(user_router)
+app.include_router(import_router)
 
 
 origins = [
