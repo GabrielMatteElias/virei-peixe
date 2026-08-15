@@ -113,9 +113,3 @@
       /* Zona abissal */
     );
 }
-
-@media (prefers-reduced-motion: reduce) {
-  .dicaScroll {
-    animation: none;
-  }
-}

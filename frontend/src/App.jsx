@@ -12,29 +12,24 @@ export default function App() {
     camadaPeixesRef.current?.localizarPeixePorUsuario(username)
   }, [])
 
-  const [peixes, setPeixes] = useState([]);
-  const [carregando, setCarregando] = useState(true);
-  const [erro, setErro] = useState(null);
+  const [peixes, setPeixes] = useState([])
+  const [carregando, setCarregando] = useState(true)
+  const [erro, setErro] = useState(null)
 
   useEffect(() => {
     async function carregarDados() {
       try {
-        const dados = await buscarPeixes();
-        console.log(dados);
-
-        setPeixes(dados);
+        const dados = await buscarPeixes()
+        setPeixes(dados)
       } catch (err) {
-        setErro(err ? err.message : 'Erro inesperado');
+        setErro(err ? err.message : 'Erro inesperado')
       } finally {
-        setCarregando(false);
+        setCarregando(false)
       }
     }
 
-    carregarDados();
-  }, []);
-
-  // if (carregando) return <p>Carregando peixes...</p>;
-  // if (erro) return <p>Erro: {erro}</p>;
+    carregarDados()
+  }, [])
 
   return (
     <div className={estilos.aplicacao}>
@@ -42,6 +37,19 @@ export default function App() {
         onSearch={localizarUsuario}
         filhos={<CamadaPeixes ref={camadaPeixesRef} peixes={peixes} />}
       />
+
+      {carregando && (
+        <div className={estilos.carregandoOverlay} role="status" aria-live="polite">
+          <div className={estilos.spinner} aria-hidden="true" />
+          <span>Carregando peixes...</span>
+        </div>
+      )}
+
+      {!carregando && erro && (
+        <div className={estilos.erroEstado} role="alert">
+          <span>Não foi possível carregar os peixes.</span>
+        </div>
+      )}
     </div>
   )
 }

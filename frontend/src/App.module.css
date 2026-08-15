@@ -1,6 +1,52 @@
 .aplicacao {
+  position: relative;
   width: 100%;
   max-width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+.carregandoOverlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.875rem;
+  background: rgba(3, 18, 29, 0.52);
+  backdrop-filter: blur(3px);
+  z-index: 30;
+  color: #eaf9ff;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.spinner {
+  width: 2.25rem;
+  height: 2.25rem;
+  border-radius: 50%;
+  border: 3px solid rgba(234, 249, 255, 0.35);
+  border-top-color: #7dd3fc;
+  animation: girar 0.9s linear infinite;
+}
+
+.erroEstado {
+  position: fixed;
+  left: 50%;
+  bottom: 2rem;
+  transform: translateX(-50%);
+  padding: 0.9rem 1.25rem;
+  border-radius: 999px;
+  background: rgba(127, 29, 29, 0.9);
+  color: #fff;
+  font-size: 0.9rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.18);
+  z-index: 25;
+}
+
+@keyframes girar {
+  to {
+    transform: rotate(360deg);
+  }
 }
