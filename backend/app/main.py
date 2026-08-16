@@ -15,10 +15,14 @@ app.include_router(import_router)
 
 
 origins = [
-    "http://localhost:5173",
+    # "http://localhost:5173",
     #"http://localhost:3000",
     "https://virei-peixe-bice.vercel.app",
-    "https://virei-peixe-bice.vercel.app/"
+    "https://virei-peixe-bice.vercel.app/",
+    "https://www.vireipeixe.com.br/",
+    "https://vireipeixe.com.br/",
+    "https://www.vireipeixe.com.br",
+    "https://vireipeixe.com.br"
 ]
 
 app.add_middleware(
