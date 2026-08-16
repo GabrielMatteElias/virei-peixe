@@ -3,11 +3,11 @@ import estilos from './Player.module.css';
 
 export function PlayerMini({
     srcAudio = '/som.mp3',
-    srcBolhas = '/bolhas.mp3',
+    srcBolhas = '/bolhas.opus',
 }) {
     const [tocando, setTocando] = useState(false);
     const [minimizado, setMinimizado] = useState(
-        () => window.matchMedia('(max-width: 640px)').matches,
+        () => typeof window !== 'undefined' && window.matchMedia('(max-width: 640px)').matches,
     );
     const [volume, setVolume] = useState(1);
 
@@ -15,19 +15,18 @@ export function PlayerMini({
     const bolhasRef = useRef(null);
 
     useEffect(() => {
-        const handleScroll = () => {
-            if (window.matchMedia('(max-width: 640px)').matches) {
-                return;
-            }
+        if (musicaRef.current) musicaRef.current.volume = volume * 0.2;
+        if (bolhasRef.current) bolhasRef.current.volume = volume * 0.5;
+    }, [volume]);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.matchMedia('(max-width: 640px)').matches) return;
             setMinimizado(window.scrollY > 120);
         };
 
         window.addEventListener('scroll', handleScroll, { passive: true });
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
+        return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
     useEffect(() => {
@@ -38,10 +37,7 @@ export function PlayerMini({
         };
 
         document.addEventListener('pointerdown', fecharAoClicarFora);
-
-        return () => {
-            document.removeEventListener('pointerdown', fecharAoClicarFora);
-        };
+        return () => document.removeEventListener('pointerdown', fecharAoClicarFora);
     }, []);
 
     const alternarPlay = async () => {
@@ -58,47 +54,39 @@ export function PlayerMini({
         }
 
         try {
-            await Promise.all([
+            await Promise.allSettled([
                 musica.play(),
                 bolhas.play(),
             ]);
 
-            setTocando(true);
+            const estaTocando = !musica.paused || !bolhas.paused;
+            setTocando(estaTocando);
         } catch {
             setTocando(false);
         }
     };
 
     const alterarVolume = (e) => {
-        const v = Number(e.target.value);
-
-        setVolume(v);
-
-        if (musicaRef.current) {
-            musicaRef.current.volume = v * 0.2;
-        }
-
-        if (bolhasRef.current) {
-            bolhasRef.current.volume = v * 0.5;
-        }
+        setVolume(Number(e.target.value));
     };
 
     return (
         <div
-            className={`${estilos.container} ${minimizado ? estilos.minimizado : ''
-                }`}
+            className={`${estilos.container} ${minimizado ? estilos.minimizado : ''}`}
             onPointerDown={(evento) => evento.stopPropagation()}
         >
             <audio
                 ref={musicaRef}
                 src={srcAudio}
                 loop
+                preload="metadata"
             />
 
             <audio
                 ref={bolhasRef}
                 src={srcBolhas}
                 loop
+                preload="metadata"
             />
 
             <button
@@ -116,6 +104,7 @@ export function PlayerMini({
 
             <div className={estilos.controles}>
                 <button
+                    type="button"
                     onClick={alternarPlay}
                     className={estilos.btnPlay}
                     aria-label={tocando ? 'Pausar sons' : 'Reproduzir sons'}

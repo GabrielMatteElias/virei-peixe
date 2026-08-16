@@ -72,17 +72,22 @@
     width: 100%;
 
     opacity: 1;
+    transform: translateX(0);
 
-    transition: opacity 0.2s ease;
+    transition:
+        opacity 0.2s ease,
+        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .container.minimizado .campo {
     opacity: 0;
+    transform: translateX(12px);
     pointer-events: none;
 }
 
 .container.minimizado:hover .campo {
     opacity: 1;
+    transform: translateX(0);
     pointer-events: auto;
 }
 
@@ -247,14 +252,5 @@
         padding: 0;
 
         border-radius: 14px;
-    }
-}
-
-@media (prefers-reduced-motion: reduce) {
-
-    .container,
-    .campo,
-    .botao {
-        transition: none;
     }
 }

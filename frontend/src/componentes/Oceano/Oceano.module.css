@@ -59,6 +59,62 @@
   }
 }
 
+/* Matéria suspensa iluminada: poucas partículas para manter a água sutil. */
+.brilhoMar,
+.brilhoMar::before,
+.brilhoMar::after {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  content: '';
+  background: rgba(178, 237, 255, 0.75);
+  box-shadow:
+    12vw 16vh 0 -1px rgba(162, 224, 242, 0.52),
+    38vw 34vh 0 0 rgba(207, 245, 255, 0.62),
+    71vw 22vh 0 -1px rgba(151, 215, 234, 0.48),
+    84vw 61vh 0 0 rgba(193, 239, 247, 0.5),
+    24vw 88vh 0 -1px rgba(168, 226, 239, 0.56),
+    56vw 118vh 0 0 rgba(203, 243, 251, 0.46),
+    90vw 145vh 0 -1px rgba(155, 218, 238, 0.44),
+    9vw 184vh 0 0 rgba(199, 242, 250, 0.38),
+    43vw 216vh 0 -1px rgba(170, 228, 242, 0.36);
+  filter: drop-shadow(0 0 4px rgba(122, 221, 246, 0.32));
+}
+
+.brilhoMar {
+  z-index: 1;
+  top: 12vh;
+  left: 15vw;
+  opacity: 0.38;
+  pointer-events: none;
+  animation: derivaBrilho 16s ease-in-out infinite alternate;
+}
+
+.brilhoMar::before {
+  top: 48vh;
+  left: 50vw;
+  opacity: 0.7;
+  transform: scale(0.7);
+  animation: pulsarBrilho 5s ease-in-out infinite;
+}
+
+.brilhoMar::after {
+  top: 116vh;
+  left: -9vw;
+  opacity: 0.54;
+  transform: scale(0.82);
+  animation: pulsarBrilho 7s ease-in-out -2s infinite;
+}
+
+@keyframes derivaBrilho {
+  to { transform: translate(1.2vw, -2.5vh); }
+}
+
+@keyframes pulsarBrilho {
+  50% { opacity: 0.24; }
+}
+
 @media (max-width: 1024px) {
   .superficie {
     background-image: url('/background_tablet.webp');
@@ -84,6 +140,18 @@
     width: 16px;
     height: 16px;
   }
+
+  .brilhoMar::after {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brilhoMar,
+  .brilhoMar::before,
+  .brilhoMar::after {
+    animation: none;
+  }
 }
 
 /* Suavização entre o final da imagem e o gradiente das profundezas */
@@ -102,6 +170,7 @@
   position: relative;
   width: 100%;
   min-height: 250vh;
+  overflow: hidden;
   background: linear-gradient(to bottom,
       #094067 0%,
       /* Transição do tom azul da imagem */

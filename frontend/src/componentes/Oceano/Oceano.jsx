@@ -80,6 +80,7 @@ export default function Oceano({ filhos, onSearch }) {
 
       {/* Extensão contínua do oceano para abrigar os peixes */}
       <section ref={referenciaProfundidade} className={estilos.profundidade}>
+        <div className={estilos.brilhoMar} aria-hidden="true" />
         {filhos}
       </section>
     </main>
